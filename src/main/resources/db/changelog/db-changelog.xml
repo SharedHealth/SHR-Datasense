@@ -749,4 +749,8 @@
         <modifyDataType tableName="reference_term" columnName="name" newDataType="varchar(255)" />
         <modifyDataType tableName="drug" columnName="name" newDataType="varchar(255)" />
     </changeSet>
+    <changeSet id="sharedhealth-datasense-20151109-1818" author="sharedhealth" context="setup">
+        <comment>Change event content column type</comment>
+        <modifyDataType tableName="failed_events" columnName="event_content" newDataType="mediumtext" />
+    </changeSet>
 </databaseChangeLog>
