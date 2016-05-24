@@ -56,6 +56,10 @@ input.expression{
     overflow-y: initial !important;
 }
 
+.panel-body {
+    overflow-y: scroll;
+}
+
 #overlay {
     position: absolute;
     left: 0;

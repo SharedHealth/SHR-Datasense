@@ -20,6 +20,7 @@ function searchDHISDataset(searchTxt) {
 }
 
 function configureDatasetForReport(e) {
+  loading();
   var dhisDatasetId = $(e.target).attr("data-datasetId");
   var periodType = $(e.target).attr("data-periodType");
   var dhisDatasetName = $("div[data-datasetId="+dhisDatasetId+"]").text().trim();
@@ -34,7 +35,10 @@ function configureDatasetForReport(e) {
     data: JSON.stringify(postData),
     contentType: "application/json; charset=utf-8",
     success: function(data, status) { window.location.href="/dhis2/reports"; },
-    dataType: "json"
+    dataType: "json",
+    complete: function(){
+       $('#overlay').remove();
+    }
   });
 
 }
@@ -42,23 +46,33 @@ function configureDatasetForReport(e) {
 
 
 function searchDHISOrgUnit(searchTxt) {
-    $.get( "/dhis2/orgUnits/search?name=" + searchTxt)
-    .done(function(result) {
-        $('#searchResultsContainer').hide();
-        $(".configure-btn").unbind("click", configureOrgUnitForFacility);
-        var template = $('#template_search_results').html();
-        Mustache.parse(template);
-        var rendered = Mustache.render(template, result.organisationUnits);
-        $('#searchResultsContainer').html(rendered);
-        $('#searchResultsContainer').show();
-        $(".configure-btn").bind("click", configureOrgUnitForFacility);
-    })
-    .fail(function() {
-        alert( "error" );
+    loading();
+    var targetUrl = "/dhis2/orgUnits/search?name=" + searchTxt;
+    $.ajax({
+        type: "GET",
+        url: targetUrl,
+        success: function(result){
+            $('#searchResultsContainer').hide();
+            $(".configure-btn").unbind("click", configureOrgUnitForFacility);
+            var template = $('#template_search_results').html();
+            Mustache.parse(template);
+            var rendered = Mustache.render(template, result.organisationUnits);
+            $('#searchResultsContainer').html(rendered);
+            $('#searchResultsContainer').show();
+            $(".configure-btn").bind("click", configureOrgUnitForFacility);
+        },
+        error: function(){
+            alert( "error" );
+        },
+        complete: function(){
+           $('#overlay').remove();
+        }
+
     });
 }
 
 function configureOrgUnitForFacility(e) {
+  loading();
   var dhisOrgUnitId = $(e.target).attr("data-orgUnitId");
   var dhisOrgUnitName = $("div[data-orgUnitId="+dhisOrgUnitId+"]").text().trim();
   var dsFacilityId = $("#dsFacilityId").val().trim();
@@ -71,7 +85,18 @@ function configureOrgUnitForFacility(e) {
     data: JSON.stringify(postData),
     contentType: "application/json; charset=utf-8",
     success: function(data, status) { window.location.href="/dhis2/orgUnits"; },
-    dataType: "json"
+    dataType: "json",
+    complete: function(){
+       $('#overlay').remove();
+    }
   });
+
+}
+
+function loading(){
+    var over = '<div id="overlay">' +
+                '<img id="loading" class = "loaderImage" src="/images/ajax-loader.gif">' +
+                '</div>';
+    $(over).appendTo('body');
 
 }

@@ -57,6 +57,7 @@ function ReportScheduleOptions(formErrors) {
    $('#reportScheduleForm').submit(function(e) {
         var val = $("input[type=submit][clicked=true]").val();
         if (val == "Submit") {
+           loading();
            var validationResult = self.validateInput($("#periodType").val());
            if (validationResult) {
                $('#periodType').removeAttr('disabled');
@@ -98,14 +99,29 @@ function ReportScheduleOptions(formErrors) {
    });
 
    $("#loadScheduleStatus").bind("click", function() {
+       loading();
        var configId = $("#configId").val();
        var targetUrl = "/dhis2/reports/schedule/" + configId + "/jobs";
-       $.get(targetUrl).done(function(results) {
-           var template = $('#template_scheduled_jobs_results').html();
-           Mustache.parse(template);
-           var rendered = Mustache.render(template, results);
-           $('#reportScheduleStatus tbody').html(rendered);
+       $.ajax({
+            type: "GET",
+            url: targetUrl,
+            success: function(results){
+                var template = $('#template_scheduled_jobs_results').html();
+                Mustache.parse(template);
+                var rendered = Mustache.render(template, results);
+                $('#reportScheduleStatus tbody').html(rendered);
+            },
+            complete: function(){
+               $('#overlay').remove();
+            }
+
        });
+//       $.get(targetUrl).done(function(results) {
+//           var template = $('#template_scheduled_jobs_results').html();
+//           Mustache.parse(template);
+//           var rendered = Mustache.render(template, results);
+//           $('#reportScheduleStatus tbody').html(rendered);
+//       });
    });
 
    $("input[name=selectedFacilities]").bind("click", function(e) {
@@ -332,10 +348,11 @@ function ReportScheduleOptions(formErrors) {
    };
 
    var loading = function(){
-    var over = '<div id="overlay">' +
-                '<img id="loading" class = "loaderImage" src="/images/ajax-loader.gif">' +
-                '</div>';
-    $(over).appendTo('body');
+        var over = '<div id="overlay">' +
+                    '<img id="loading" class = "loaderImage" src="/images/ajax-loader.gif">' +
+                    '</div>';
+        $(over).appendTo('body');
+
    }
 
    var getDhisNames = function(response) {
