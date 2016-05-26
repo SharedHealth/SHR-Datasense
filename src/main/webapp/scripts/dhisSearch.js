@@ -2,15 +2,21 @@ function searchDHISDataset(searchTxt) {
     var deferredRes = $.Deferred();
     $.get( "/dhis2/reports/search?name=" + searchTxt)
         .done(function(result) {
-            $('#searchResultsContainer').hide();
-            $(".configure-btn").unbind("click", configureDatasetForReport);
-            var template = $('#template_search_results').html();
-            Mustache.parse(template);
-            var rendered = Mustache.render(template, result.dataSets);
-            $('#searchResultsContainer').html(rendered);
-            $('#searchResultsContainer').show();
-            $(".configure-btn").bind("click", configureDatasetForReport);
-            deferredRes.resolve();
+            clearErrors();
+            if(result.dataSets.length <= 0){
+                showErrors("No match for " + searchTxt);
+            }
+            else{
+                $('#searchResultsContainer').hide();
+                $(".configure-btn").unbind("click", configureDatasetForReport);
+                var template = $('#template_search_results').html();
+                Mustache.parse(template);
+                var rendered = Mustache.render(template, result.dataSets);
+                $('#searchResultsContainer').html(rendered);
+                $('#searchResultsContainer').show();
+                $(".configure-btn").bind("click", configureDatasetForReport);
+                deferredRes.resolve();
+            }
         })
         .fail(function() {
             alert( "error" );
@@ -40,10 +46,7 @@ function configureDatasetForReport(e) {
        $('#overlay').remove();
     }
   });
-
 }
-
-
 
 function searchDHISOrgUnit(searchTxt) {
     loading();
@@ -52,6 +55,10 @@ function searchDHISOrgUnit(searchTxt) {
         type: "GET",
         url: targetUrl,
         success: function(result){
+            clearErrors();
+            if(result.organisationUnits.length <= 0){
+                showErrors("No match for " + searchTxt);
+            }
             $('#searchResultsContainer').hide();
             $(".configure-btn").unbind("click", configureOrgUnitForFacility);
             var template = $('#template_search_results').html();
