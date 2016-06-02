@@ -1,4 +1,4 @@
-package org.sharedhealth.datasense.controller;
+package org.sharedhealth.datasense.dhis2.controller;
 
 import org.sharedhealth.datasense.dhis2.model.MetadataConfig;
 import org.sharedhealth.datasense.dhis2.service.FacilityInfoService;
