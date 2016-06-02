@@ -50,6 +50,14 @@ public class DHISOrgUnitController {
         return "{}";
     }
 
+    @RequestMapping(value = "/config", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
+    public ModelAndView showFacilityInfo() {
+        ModelAndView modelAndView = new ModelAndView("dhis.facilityInfo");
+        modelAndView.addObject("orgUnits", metaDataService.getAvailableOrgUnits(false));
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
     public @ResponseBody

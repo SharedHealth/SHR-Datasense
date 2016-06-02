@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="/scripts/jquery-2.1.3.min.js"></script>
+    <script src="/scripts/script.js"/>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/facilityInfo.js"/>
+    <script type="text/javascript" th:inline="javascript">
+        $( document ).ready(function() {
+            var facilityInfo = new FacilityInformations();
+            $("#searchTxt").keyup(function(event){
+                if(event.keyCode == 13){
+                    $("#searchBtn").click();
+                }
+            });
+            $("#searchBtn").click(function() {
+                var facilities = [[${orgUnits}]];
+                var searchText = $("#searchTxt").val();
+                searchFacility(facilities,searchText);
+            });
+        });
+    </script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Static header</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form role="form" method="post" id="facilityInfoForm">
+        <h2>Select a facility</h2>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input id="searchTxt" type="text" class="form-control"
+                           placeholder="Please type in the Facility Name ..."/>
+                    <span class="input-group-btn">
+                    <button id="searchBtn" class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="radio" th:each="org: ${orgUnits}">
+            <label>
+                <input type="radio" name="selectedFacilities" th:value="${org.facilityId}"
+                       th:attr="data-orgunit=${org.orgUnitId}"/>
+                <span th:utext="${org.facilityName}">name</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="Submit" id="submit" class="btn btn-info" value="Submit"/>
+            </div>
+        </div>
+    </form>
+
+    <!--<div>-->
+    <!--<h2>&nbsp;</h2>-->
+    <!--</div>-->
+    <!--<div>-->
+    <!--<h2>Search a facility</h2>-->
+    <!-- /.row -->
+    <!--<div class="checkbox" th:each="org: ${orgUnits}">-->
+    <!--<label>-->
+    <!--<input type="checkbox" name="selectedFacilities" th:value="${org.facilityId}"-->
+    <!--th:attr="data-orgunit=${org.orgUnitId}"/>-->
+    <!--<span th:utext="${org.facilityName}">name</span>-->
+    <!--</label>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<div>-->
+    <!--<h3>Results</h3>-->
+    <!--<div th:include="fragments/error :: error"/>-->
+    <!--<div id="searchResultsContainer" class="search-results">-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash;<input type="hidden" name="dsFacilityId" id="dsFacilityId" value="example" th:value="${facilityId}" />&ndash;&gt;-->
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
