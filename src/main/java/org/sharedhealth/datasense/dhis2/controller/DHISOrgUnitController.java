@@ -4,6 +4,7 @@ import org.sharedhealth.datasense.client.DHIS2Client;
 import org.sharedhealth.datasense.dhis2.model.DHISOrgUnitConfig;
 import org.sharedhealth.datasense.dhis2.model.DHISResponse;
 import org.sharedhealth.datasense.dhis2.service.DHISMetaDataService;
+import org.sharedhealth.datasense.dhis2.service.FacilityInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,9 @@ public class DHISOrgUnitController {
     public static final String DHIS_ORGUNIT_SEARCH_FORMAT = "/api/organisationUnits?filter=name:like:%s&fields=id,name,href&pageSize=500";
     @Autowired
     DHISMetaDataService metaDataService;
+
+    @Autowired
+    FacilityInfoService facilityDataService;
 
     @Autowired
     DHIS2Client dhis2Client;
@@ -54,7 +58,7 @@ public class DHISOrgUnitController {
     @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
     public ModelAndView showFacilityInfo() {
         ModelAndView modelAndView = new ModelAndView("dhis.facilityInfo");
-        modelAndView.addObject("orgUnits", metaDataService.getAvailableOrgUnits(false));
+//        modelAndView.addObject("allFacilities", facilityDataService.getAvailableFacilities());
         return modelAndView;
     }
 

@@ -1,7 +1,7 @@
 function FacilityInformations(){
 
     $('#facilityInfoForm').submit(function(e) {
-        var targetUrl = "/metadata/encounter";
+        var targetUrl = "/facilityInfo/encounter";
         var selectedFacility = $('input[name="selectedFacilities"]:checked').val();
         var postData ={"facilityId":selectedFacility};
         $.ajax({
@@ -29,18 +29,34 @@ function FacilityInformations(){
 
 }
 
-var searchFacility = function(facilities,searchText){
-    for(i=0;i<facilities.length;i++){
-        $.each(facilities[i], function(key, value) {
-            if(key=="facilityName" || key=="facilityId"){
-                if(value == searchText){
-                    var facilityId = facilities[i].facilityId;
-                    var selectedFacilities = "selectedFacilities";
-                    $("input[name=selectedFacilities][value=" + facilityId + "]").attr('checked', 'checked');
-                    var selectedFacility = $('input[name="selectedFacilities"]:checked').val();
-                    alert(selectedFacility);
-                }
-            }
-        });
-    }
+var searchFacility = function(searchTxt){
+        var targetUrl = "/facilityInfo/search?name=" + searchTxt;
+        $.ajax({
+               type: "GET",
+               url: targetUrl,
+               success: function(result){
+                    alert(result[0].facilityName);
+//                   $('#searchResultsContainer').hide();
+//                   var template = $('#template_search_facilities').html();
+//                   Mustache.parse(template);
+//                   var rendered = Mustache.render(template, result.facilities);
+//                   $('#searchResultsContainer').html(rendered);
+//                   $('#searchResultsContainer').show();
+//                   $(".configure-btn").bind("click", configureOrgUnitForFacility);
+               }
+           });
+//    for(i=0;i<facilities.length;i++){
+//        $.each(facilities[i], function(key, value) {
+//            if(key=="facilityName" || key=="facilityId"){
+//                if(value == searchText){
+//                    var facilityId = facilities[i].facilityId;
+//                    var selectedFacilities = "selectedFacilities";
+//                    $("input[name=selectedFacilities][value=" + facilityId + "]").attr('checked', 'checked');
+//                    var selectedFacility = $('input[name="selectedFacilities"]:checked').val();
+//                    alert(selectedFacility);
+//                }
+//            }
+//        });
+//    }
+
 }

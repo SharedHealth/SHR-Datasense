@@ -28,6 +28,14 @@ public class FacilityDao {
         return facilities.isEmpty() ? null : facilities.get(0);
     }
 
+    public Facility findFacilityByName(String name) {
+        List<Facility> facilities = jdbcTemplate.query("select " + ALL_FIELDS + " from facility where name= " +
+                        ":name",
+                Collections.singletonMap("name", name),
+                getRowMapperForFacility());
+        return facilities.isEmpty() ? null : facilities.get(0);
+    }
+
     public void save(Facility facility) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("facility_id", facility.getFacilityId());

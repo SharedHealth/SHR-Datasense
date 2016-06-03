@@ -17,9 +17,8 @@
                 }
             });
             $("#searchBtn").click(function() {
-                var facilities = [[${orgUnits}]];
                 var searchText = $("#searchTxt").val();
-                searchFacility(facilities,searchText);
+                searchFacility(searchText);
             });
         });
     </script>
@@ -54,13 +53,19 @@
                 </div>
             </div>
         </div>
-        <div class="radio" th:each="org: ${orgUnits}">
-            <label>
-                <input type="radio" name="selectedFacilities" th:value="${org.facilityId}"
-                       th:attr="data-orgunit=${org.orgUnitId}"/>
-                <span th:utext="${org.facilityName}">name</span>
-            </label>
+        <!--<div class="radio" th:each="org: ${orgUnits}">-->
+            <!--<label>-->
+                <!--<input type="radio" name="selectedFacilities" th:value="${org.facilityId}"-->
+                       <!--th:attr="data-orgunit=${org.orgUnitId}"/>-->
+                <!--<span th:utext="${org.facilityName}">name</span>-->
+            <!--</label>-->
+        <!--</div>-->
+        <div>
+            <h3>Results</h3>
+            <div id="searchResultsContainer" class="search-results">
+            </div>
         </div>
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="submit" name="Submit" id="submit" class="btn btn-info" value="Submit"/>
@@ -68,32 +73,16 @@
         </div>
     </form>
 
-    <!--<div>-->
-    <!--<h2>&nbsp;</h2>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<h2>Search a facility</h2>-->
-    <!-- /.row -->
-    <!--<div class="checkbox" th:each="org: ${orgUnits}">-->
-    <!--<label>-->
-    <!--<input type="checkbox" name="selectedFacilities" th:value="${org.facilityId}"-->
-    <!--th:attr="data-orgunit=${org.orgUnitId}"/>-->
-    <!--<span th:utext="${org.facilityName}">name</span>-->
-    <!--</label>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div>-->
-    <!--<h3>Results</h3>-->
-    <!--<div th:include="fragments/error :: error"/>-->
-    <!--<div id="searchResultsContainer" class="search-results">-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--&lt;!&ndash;<input type="hidden" name="dsFacilityId" id="dsFacilityId" value="example" th:value="${facilityId}" />&ndash;&gt;-->
-
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
-<div th:replace="fragments/footer :: footer"></div>
+<script id="template_search_facilities" type="x-tmpl-mustache">
+    {{#.}}
+    <label class="radio">
+    <input type="radio" name="selectedFacilities" value="{{facilityId}}">{{facilityName}}</input>
+    </label>
+    {{/.}}
+
+</script>
+
 </body>
 </html>
