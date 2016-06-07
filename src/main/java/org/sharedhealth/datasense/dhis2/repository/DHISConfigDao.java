@@ -153,7 +153,6 @@ public class DHISConfigDao {
 
     public Object getLastEncounter(MetadataConfig config) {
         Object createdDateAndTime = jdbcTemplate.queryForObject(qryGetLastEncounter,Collections.singletonMap("facility_id", config.getFacilityId()),java.sql.Timestamp.class);
-        System.out.println(createdDateAndTime);
         return createdDateAndTime;
     }
 }

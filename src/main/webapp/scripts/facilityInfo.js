@@ -35,7 +35,7 @@ function FacilityInformations(){
             },
             dataType: "json",
             error: function(e){
-                alert(e);
+                showErrors(e);
             }
         });
         e.preventDefault();
@@ -96,13 +96,8 @@ var searchFacility = function(searchTxt){
             }
         }
         else if(selectedOption == "FacilityName"){
-//            if(validateFacilityName(searchTxt)){
                 targetUrl = "/facilityInfo/searchByName?name=" + searchTxt;
                 getFacilities(targetUrl);
-//            }
-//            else{
-//                alert("Incorrect FacilityName");
-//            }
         }
 
 }
