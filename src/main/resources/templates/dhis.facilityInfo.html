@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
     <script src="/scripts/jquery-2.1.3.min.js"></script>
+    <script src="/scripts/mustache.min.js"></script>
     <script src="/scripts/script.js"/>
+    <script src="/scripts/error.js"></script>
     <script src="/scripts/bootstrap.min.js"></script>
     <script src="/scripts/facilityInfo.js"/>
     <script type="text/javascript" th:inline="javascript">
@@ -39,49 +41,74 @@
     </div>
 </div>
 <div class="container">
-    <form role="form" method="post" id="facilityInfoForm">
-        <h2>Select a facility</h2>
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input id="searchTxt" type="text" class="form-control"
-                           placeholder="Please type in the Facility Name ..."/>
+    <div>
+        <h2>&nbsp;</h2>
+    </div>
+    <div class="tab-content">
+        <form role="form" method="post" id="facilityInfoForm">
+            <div></div>
+            <div th:include="fragments/error :: error"/>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>Search for facility by</h2>
+                    <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="searchBy" value="FacilityName"/>Facility Name</label>
+                        <label class="radio-inline"><input type="radio" name="searchBy"
+                                                           value="FacilityId"/>Facility Id</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <input id="searchTxt" type="text" class="form-control"
+                                       placeholder="Please type in the Facility Name ..."/>
                     <span class="input-group-btn">
                     <button id="searchBtn" class="btn btn-default" type="button">Go!</button>
                     </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--<div class="radio" th:each="org: ${orgUnits}">-->
-            <!--<label>-->
-                <!--<input type="radio" name="selectedFacilities" th:value="${org.facilityId}"-->
-                       <!--th:attr="data-orgunit=${org.orgUnitId}"/>-->
-                <!--<span th:utext="${org.facilityName}">name</span>-->
-            <!--</label>-->
-        <!--</div>-->
-        <div>
-            <h3>Results</h3>
-            <div id="searchResultsContainer" class="search-results">
+            <div class="panel panel-default" id="avalilableFacilities" hidden="true">
+                <div class="panel-body">
+                    <div>
+                        <h3>Search results</h3>
+                        <div class="form-group" id="searchResultsContainerForFacility" >
+                        </div>
+                    </div>
+                    <div></div>
+                    <div class="form-group" hidden="true" id="submitButton">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" name="Submit" id="submit" class="btn btn-info" value="Show last encounter date"/>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" name="Submit" id="submit" class="btn btn-info" value="Submit"/>
+            <div class="panel panel-default" id="lastEncounter" hidden="true">
+                <div class="panel-body">
+                    <div>
+                        <div id="searchResultsLastEncounter" class="search-results">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>
-<script id="template_search_facilities" type="x-tmpl-mustache">
+<script class="form-group" id="template_search_facilities" type="x-tmpl-mustache">
     {{#.}}
-    <label class="radio">
-    <input type="radio" name="selectedFacilities" value="{{facilityId}}">{{facilityName}}</input>
+    <label class="radio-inline">
+    <input type="radio" name="selectedFacilities" id="{{facilityName}}" value="{{facilityId}}">{{facilityName}}</input>
     </label>
     {{/.}}
 
+</script>
+<script id="template_search_lastencounter" type="x-tmpl-mustache">
+    {{#.}}
+        Last encounter date and time for {{facilityName}}({{facilityId}}) is {{encounterDate}}
+    {{/.}}
 </script>
 
 </body>

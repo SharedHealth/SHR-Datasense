@@ -24,11 +24,12 @@ public class FacilityInfoService {
     }
 
     @Transactional
-    public Facility getAvailableFacilities(String facility_Id) {
+    public Facility getAvailableFacilitiesById(String facility_Id) {
         return facilityCongigDao.findFacilityById(facility_Id);
     }
-//    @Transactional
-//    public List<Facility> getAvailableFacilities() {
-//        return facilityCongigDao.fetchAll();
-//    }
+
+    @Transactional
+    public List<Facility> getAvailableFacilitiesBYName(String facility_name) {
+        return facilityCongigDao.findFacilityByName(facility_name);
+    }
 }

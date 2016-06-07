@@ -58,7 +58,6 @@ public class DHISOrgUnitController {
     @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
     public ModelAndView showFacilityInfo() {
         ModelAndView modelAndView = new ModelAndView("dhis.facilityInfo");
-//        modelAndView.addObject("allFacilities", facilityDataService.getAvailableFacilities());
         return modelAndView;
     }
 

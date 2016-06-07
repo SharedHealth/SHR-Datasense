@@ -1,9 +1,7 @@
 package org.sharedhealth.datasense.dhis2.controller;
 
-import org.sharedhealth.datasense.dhis2.model.DHISResponse;
 import org.sharedhealth.datasense.dhis2.model.MetadataConfig;
 import org.sharedhealth.datasense.dhis2.service.FacilityInfoService;
-import org.sharedhealth.datasense.model.Facility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/facilityInfo")
@@ -31,17 +28,17 @@ public class FacilityInfoController {
         return metaDataService.getLastEncounter(config);
     }
 
-//    @RequestMapping(value = "/search", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
-//    public @ResponseBody
-//    List<Facility> searchFacility() throws IOException, URISyntaxException {
-//        return facilityDataService.getAvailableFacilities();
-//    }
-
-    @RequestMapping(value = "/search", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/searchByName", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
     public @ResponseBody
-    Object searchFacility(@RequestParam(value = "name") String name) throws IOException, URISyntaxException {
-        return facilityDataService.getAvailableFacilities(name);
+    Object searchFacilityByName(@RequestParam(value = "name") String name) throws IOException, URISyntaxException {
+        return facilityDataService.getAvailableFacilitiesBYName(name);
+    }
+
+    @RequestMapping(value = "/searchById", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_SHR System Admin')")
+    public @ResponseBody
+    Object searchFacilityById(@RequestParam(value = "id") String id) throws IOException, URISyntaxException {
+        return facilityDataService.getAvailableFacilitiesById(id);
     }
 }
