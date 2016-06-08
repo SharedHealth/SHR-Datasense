@@ -1,10 +1,19 @@
 function FacilityInformations(){
 
     $(document).on('click','input[name=selectedFacilities]',function(e){
+        $('#lastEncounter').attr("hidden",true);
         $("#submitButton").attr("hidden", false);
-    })
+    });
+
+    $("input[name=searchBy]").bind("click", function(e) {
+       document.getElementById("searchTxt").value = "";
+       clearErrors();
+       $("#avalilableFacilities").attr("hidden",true);
+       $('#lastEncounter').attr("hidden",true);
+    });
 
     $('#facilityInfoForm').submit(function(e) {
+        document.getElementById("searchTxt").value = "";
         var targetUrl = "/facilityInfo/encounter";
         var selectedFacility = $('input[name="selectedFacilities"]:checked').val();
         var selectedFacilityName =$('input[name="selectedFacilities"]:checked').attr('id');
@@ -21,7 +30,7 @@ function FacilityInformations(){
                 var minutes = (d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes();
                 var formattedTime = hours + ":" + minutes;
 
-               formattedDate = formattedDate + " " + formattedTime;
+               formattedDate = formattedDate + " , " + formattedTime;
                var result = {"facilityName":selectedFacilityName,"facilityId":selectedFacility,"encounterDate":formattedDate}
                $('#searchResultsLastEncounter').hide();
                var template = $('#template_search_lastencounter').html();

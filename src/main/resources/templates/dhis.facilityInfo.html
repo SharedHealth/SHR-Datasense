@@ -47,7 +47,6 @@
     <div class="tab-content">
         <form role="form" method="post" id="facilityInfoForm">
             <div></div>
-            <div th:include="fragments/error :: error"/>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h2>Search for facility by</h2>
@@ -69,6 +68,7 @@
                     </div>
                 </div>
             </div>
+            <div th:include="fragments/error :: error"/>
             <div class="panel panel-default" id="avalilableFacilities" hidden="true">
                 <div class="panel-body">
                     <div>
