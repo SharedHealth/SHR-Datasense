@@ -10,7 +10,6 @@ function DhisDataSetTemplate() {
    };
 
    this.generateTemplate = function(e) {
-      loading();
       $("#suggestionContainer").addClass('hidden');
       var dhisDatasetId = $(e.target).attr("data-datasetId");
       var targetUrl = "/dhis2/dataSets/" + dhisDatasetId + "/dataElements";
@@ -79,12 +78,9 @@ function DhisDataSetTemplate() {
 
             //stringifyAndDisplaySuggestion(suggestionTemplate
           },
-          error: function() {
-            alert( "error" );
-           },
-          complete: function(){
-             $('#overlay').remove();
-          }
+          error: function(e) {
+            showErrors(e);
+           }
       });
    };
 
@@ -112,12 +108,4 @@ function DhisDataSetTemplate() {
 
         $('#suggestionContainer').removeClass('hidden');
     };
-
-    var loading = function(){
-        var over = '<div id="overlay">' +
-                    '<img id="loading" class = "loaderImage" src="/images/ajax-loader.gif">' +
-                    '</div>';
-        $(over).appendTo('body');
-
-    }
 }

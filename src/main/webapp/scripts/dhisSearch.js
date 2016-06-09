@@ -1,5 +1,4 @@
 function searchDHISDataset(searchTxt) {
-    loading();
     var deferredRes = $.Deferred();
     var targetUrl = "/dhis2/reports/search?name=" + searchTxt;
     $.ajax({
@@ -9,6 +8,7 @@ function searchDHISDataset(searchTxt) {
             clearErrors();
             if(result.dataSets.length <= 0){
                 showErrors("No match for " + searchTxt);
+                $('#searchResultsContainer').hide();
             }
             else{
                 $('#searchResultsContainer').hide();
@@ -25,16 +25,12 @@ function searchDHISDataset(searchTxt) {
         error : function(){
             showErrors("Unable to fetch from DHIS");
             deferredRes.reject('error');
-        },
-        complete : function(){
-            $('#overlay').remove();
         }
     });
     return deferredRes;
 }
 
 function configureDatasetForReport(e) {
-  loading();
   var dhisDatasetId = $(e.target).attr("data-datasetId");
   var periodType = $(e.target).attr("data-periodType");
   var dhisDatasetName = $("div[data-datasetId="+dhisDatasetId+"]").text().trim();
@@ -49,15 +45,11 @@ function configureDatasetForReport(e) {
     data: JSON.stringify(postData),
     contentType: "application/json; charset=utf-8",
     success: function(data, status) { window.location.href="/dhis2/reports"; },
-    dataType: "json",
-    complete: function(){
-       $('#overlay').remove();
-    }
+    dataType: "json"
   });
 }
 
 function searchDHISOrgUnit(searchTxt) {
-    loading();
     var targetUrl = "/dhis2/orgUnits/search?name=" + searchTxt;
     $.ajax({
         type: "GET",
@@ -66,6 +58,7 @@ function searchDHISOrgUnit(searchTxt) {
             clearErrors();
             if(result.organisationUnits.length <= 0){
                 showErrors("No match for " + searchTxt);
+                $('#searchResultsContainer').hide();
             }
             $('#searchResultsContainer').hide();
             $(".configure-btn").unbind("click", configureOrgUnitForFacility);
@@ -78,16 +71,11 @@ function searchDHISOrgUnit(searchTxt) {
         },
         error: function(){
             showErrors("Unable to fetch from DHIS");
-        },
-        complete: function(){
-           $('#overlay').remove();
         }
-
     });
 }
 
 function configureOrgUnitForFacility(e) {
-  loading();
   var dhisOrgUnitId = $(e.target).attr("data-orgUnitId");
   var dhisOrgUnitName = $("div[data-orgUnitId="+dhisOrgUnitId+"]").text().trim();
   var dsFacilityId = $("#dsFacilityId").val().trim();
@@ -103,18 +91,6 @@ function configureOrgUnitForFacility(e) {
     dataType: "json",
     error: function(){
         showErrors("Error in configuring");
-    },
-    complete: function(){
-       $('#overlay').remove();
     }
   });
-
-}
-
-function loading(){
-    var over = '<div id="overlay">' +
-                '<img id="loading" class = "loaderImage" src="/images/ajax-loader.gif">' +
-                '</div>';
-    $(over).appendTo('body');
-
 }
