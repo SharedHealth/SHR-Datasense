@@ -28,6 +28,7 @@ public class HeaderUtil {
                 .getDhisPassword());
         postHeaders.put("Authorization", authentication);
         postHeaders.put("Content-Type", "application/json");
+        postHeaders.put("Accept-Charset","UTF-8");
         return postHeaders;
     }
 
