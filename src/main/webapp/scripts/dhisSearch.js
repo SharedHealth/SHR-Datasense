@@ -5,6 +5,7 @@ function searchDHISDataset(searchTxt) {
     $.ajax({
         type: "GET",
         url: targetUrl,
+        contentType: "application/json; charset=utf-8",
         success : function(result){
             clearErrors();
             $("#suggestionContainer").hide();
