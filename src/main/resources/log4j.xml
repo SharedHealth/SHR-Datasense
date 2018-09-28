@@ -29,6 +29,7 @@
 
     <logger name="org.sharedhealth.datasense" additivity="false">
         <level value="${DATASENSE_LOG_LEVEL}"/>
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="VAR_LOG"/>
     </logger>
 
@@ -45,6 +46,7 @@
     <root>
         <priority value="${DATASENSE_LOG_LEVEL}"/>
         <appender-ref ref="VAR_LOG"/>
+        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ACCESS_LOG"/>
     </root>
 
